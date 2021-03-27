@@ -21,12 +21,13 @@ $data=$comp->get_company_details($_GET['company_id']);
         company description
     </div>
     <?php  
-    $flag=0;
+      $flag=1;
     if($comp->check_if_company_added($_GET['company_id'])){
-        $flag=1;
+        $flag=$flag+1;
     }
+    
     ?>
-    <div><button class="btn <?php if($flag==0){ echo "add_company";}else{echo "remove_company";} ?>" id="button"><?php if($flag==0){ echo "start_preperation";}else{echo "stop_preperation";} ?></button></div>
+    <div><button class="btn <?php if($flag%2==0){ echo "add_company";}else{echo "remove_company";} ?>" id="button"><?php if($flag%2==0){ echo "start_preperation";$flag++;}else{echo "stop_preperation";$flag++;} ?></button></div>
     <script type="text/javascript">
         $(document).ready(function(){
             $(".add_company").click(function(){
@@ -39,6 +40,8 @@ $data=$comp->get_company_details($_GET['company_id']);
                     success:
                     function(result){
                         alert("success in adding company");
+                        <?php $flag=0; ?>
+                        location.reload();
                     }
                 });
             });
@@ -51,6 +54,7 @@ $data=$comp->get_company_details($_GET['company_id']);
                     method:"post",
                     success:
                     function(result){
+                      <?php $flag=1; ?>
                         alert("removed company");
                     }
                 }); 

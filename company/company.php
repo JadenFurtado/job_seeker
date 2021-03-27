@@ -33,19 +33,15 @@ class Company extends connection{
 		$id=mysqli_real_escape_string($link,$this->test_input($id));
 		$user=$_SESSION['user_id'];
 
-		$sql="SELECT c_id FROM prep WHERE u_id='$user'";
+		$sql="SELECT COUNT(p_id) FROM prep WHERE u_id='$user' AND  c_id='$id'";
 		
 		$res=mysqli_query($link,$sql);
         if($res!=NULL){
-        	while($row=mysqli_fetch_array($res)){
-        		if($row['c_id']==$id){
-        			return true;
-        		}
-        		else{
-        			return false;
-        		}
-        	}
+        	return true;
         }
+		else{
+			return false;
+		}
 	}
 
 	public function get_resources($c_id){
