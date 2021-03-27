@@ -8,6 +8,8 @@ CREATE TABLE users(
 );
 
 ALTER TABLE users ADD passwords VARCHAR(255);
+ALTER TABLE users ADD address VARCHAR(255);
+ALTER TABLE users ADD cv VARCHAR(255);
 
 CREATE TABLE company(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,4 +65,3 @@ CREATE TABLE experience(
 	CONSTRAINT comp_exp FOREIGN KEY (c_id) REFERENCES company(id),
 	CONSTRAINT user_exp FOREIGN KEY (u_id) REFERENCES users(id)
 );
-

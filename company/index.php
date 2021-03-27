@@ -16,11 +16,53 @@ $data=$comp->get_company_details($_GET['company_id']);
     <title><?php  ?></title>
   </head>
   <body style="padding:5px;">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Jobify</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/index.php" class="nav-link">
+          Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/search/" class="nav-link">
+          Search
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/resources/" class="nav-link">
+          Resources
+        </a>
+      </li>
+      <?php
+      if(isset($_SESSION['user_id'])){
+      ?>
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/profile/?user_id=<?php echo $_SESSION['user_id'] ?>" class="nav-link">
+          Profile
+        </a>
+      </li>
+    <?php 
+         }
+    ?>
+    </ul>
+  </div>
+</nav>
     <h3><?php echo $arr['name']; ?></h3>
     <div>
         company description
     </div>
     <?php  
+    if(isset($_SESSION['user_id'])){
       $flag=1;
     if($comp->check_if_company_added($_GET['company_id'])){
         $flag=$flag+1;
@@ -62,6 +104,9 @@ $data=$comp->get_company_details($_GET['company_id']);
         });
     </script>
     <br>
+    <?php
+}
+    ?>
  <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Resources</a>
@@ -101,7 +146,9 @@ $data=$comp->get_company_details($_GET['company_id']);
         </div>
         <?php
           }
-          
+          if(mysqli_num_rows($g)==0){
+            echo "<h5>No resource to show</h5>";
+          }
           ?>
         </table>
       </div>
@@ -109,14 +156,55 @@ $data=$comp->get_company_details($_GET['company_id']);
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       <div><a href="https://localhost/jobPrep/company/add_experience.php?company_id=<?php echo htmlspecialchars($_GET['company_id']); ?>">add experience</a></div>
       <div>
-          <?php echo "employees past experiences"; ?>
+          <?php $d=$comp->get_experience($_GET['company_id']);   
+          while($r=mysqli_fetch_array($d)){
+          ?>
+          <div style="width: 100%; padding-bottom: 8px;">
+         <div><h6><?php echo $r['experience']; ?></h6></div>
+         <div>position held:<?php echo $r['position']; ?></div>   
+          </div>
+          <?php
+        }
+        if($r==NULL){
+          echo "<h5>No experience to display</h5>";
+        }
+          ?>
       </div>
   </div>
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <table style="width: 100%;">
       <div><a href="#">add vacancy</a></div>
       <div>
-          <?php echo "company vacancies";  ?>
+        <tr>
+          <td>
+          <div style="padding-bottom: 5px;background-color: #cceeff">
+            <a href="https://www.workindia.in/jobs-in-mumbai/"><h5>Check vacancies out here</h5></a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div style="padding-bottom: 5px;">
+            <a href="https://in.indeed.com/Fresher-Web-Developer-jobs-in-Mumbai,-Maharashtra"><h5>For web eveloper freshers</h5></a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div style="padding-bottom: 5px; background-color:  #cceeff">
+            <a href="https://www.naukri.com/software-engineer-jobs"><h5>Now hiring software engineers</h5></a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div style="padding-bottom: 5px;">
+            <a href="https://in.indeed.com/"><h5>Computer engineers</h5></a>
+          </div>
+        </td>
+      </tr>
       </div>
+    </table>
   </div>
 </div>
     <!-- Optional JavaScript -->

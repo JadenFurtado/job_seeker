@@ -25,6 +25,37 @@ else{
     <title>add resource</title>
   </head>
   <body style="padding:5px;">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Jobify</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/index.php" class="nav-link">
+          Home
+        </a>
+      </li>
+      <?php
+      if(isset($_SESSION['user_id'])){
+      ?>
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/profile/?user_id=<?php echo $_SESSION['user_id'] ?>" class="nav-link">
+          Profile
+        </a>
+      </li>
+    <?php 
+         }
+    ?>
+    </ul>
+  </div>
+</nav>
     <div>
         <h3>Add my experience</h3>
         <form method="POST">

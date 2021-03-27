@@ -20,6 +20,37 @@ $user_id=$_GET['user_id'];
     <title>company profile</title>
   </head>
   <body style="padding:5px;">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Jobify</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/index.php" class="nav-link">
+          Home
+        </a>
+      </li>
+      <?php
+      if(isset($_SESSION['user_id'])){
+      ?>
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/profile/?user_id=<?php echo $_SESSION['user_id'] ?>" class="nav-link">
+          Profile
+        </a>
+      </li>
+    <?php 
+         }
+    ?>
+    </ul>
+  </div>
+</nav>
     <?php
     $profile = new Profile();
     $data=$profile->get_preperation($user_id);
@@ -34,23 +65,19 @@ $user_id=$_GET['user_id'];
         ?>
         <tr>
             <td>
-                <?php echo $r['name']; ?>
+                <h4><?php echo $r['name']; ?></h4>
             </td>
             <td>
-                <a href="https://localhost/jobPrep/preperation/preperation.php?user_id=<?php echo $_GET['user_id'].'&prep_no='.$r['id'] ?>">see preperation</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Company Name 2
-            </td>
-            <td>
-                <a href="">see preperation</a>
+                <a href="https://localhost/jobPrep/company/?company_id=<?php echo $row['c_id'] ?>">see content to prepare</a>
             </td>
         </tr>
         <?php
         }
     }
+    if(mysqli_num_rows($data)==0){
+            echo "You have not started preparing for any interview<br>";
+            echo "<a href='https://localhost/jobPrep/search/'>click here to start now!</a>";
+        }
         ?>
     </table>
     <!-- Optional JavaScript -->

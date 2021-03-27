@@ -1,4 +1,6 @@
-<?php include('profile.php');  ?>
+<?php include('profile.php');  
+session_start();
+?>
 <!doctype html>
 <?php
 
@@ -24,6 +26,37 @@ if($data!=NULL){
     <title>Hello, world!</title>
   </head>
   <body style="padding:5px;">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Jobify</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/index.php" class="nav-link">
+          Home
+        </a>
+      </li>
+      <?php
+      if(isset($_SESSION['user_id'])){
+      ?>
+      <li class="nav-item">
+        <a href="http://localhost/jobPrep/profile/?user_id=<?php echo $_SESSION['user_id'] ?>" class="nav-link">
+          Profile
+        </a>
+      </li>
+    <?php 
+         }
+    ?>
+    </ul>
+  </div>
+</nav>
     <?php $res=mysqli_fetch_array($data); ?>
     <h2>Welcome <?php echo $res['name']; ?></h2>
     <div>
@@ -45,6 +78,26 @@ if($data!=NULL){
                 </td>
             </tr>
         </table>
+    </div>
+    <div>
+        <?php
+        if(isset($_SESSION['user_id'])){
+            ?>
+            <form method="POST">
+            <button name="log_out">log out</button>
+            <button name="edit">edit</button>
+            </form>
+            <?php
+        }
+        if(isset($_POST['log_out'])){
+            session_unset();
+            session_destroy();
+            echo "<script>alert('logged out!');location.replace('https://localhost/jobPrep/');</script>";
+        }
+        if(isset($_POST['edit'])){
+            header("location:https://localhost/jobPrep/settings/");
+        }
+        ?>
     </div>
     <div>
         <a href="#">my interest</a>

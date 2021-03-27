@@ -68,6 +68,17 @@ class Company extends connection{
 			return $res;
 		}
 	}
+
+	public function get_experience($id){
+		$link=$this->connect();
+		$id=mysqli_real_escape_string($link,$this->test_input($id));
+
+		$sql="SELECT * FROM experience WHERE c_id='$id'";
+		$res=mysqli_query($link,$sql);
+		if($res!=NULL){
+			return $res;
+		}
+	}
 }
 
 ?>

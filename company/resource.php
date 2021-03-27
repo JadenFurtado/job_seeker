@@ -26,12 +26,12 @@ class resource extends connection{
 		$start_date=mysqli_real_escape_string($link,$this->test_input($start_date));
 		$end_date=mysqli_real_escape_string($link,$this->test_input($end_date));
 
-		$sql="INSERT INTO experience(c_id,u_id,experience,position,start_date,end_date) VALUES('$c_id','$u_id','$experience','$my_pos','$start_date','$end_date')";
+		$sql="INSERT INTO experience(c_id,u_id,experience,position,start_date,end_time) VALUES('$c_id','$u_id','$experience','$my_pos','$start_date','$end_date')";
 		if(mysqli_query($link,$sql)){
 			return true;
 		}
 		else{
-			return false;
+			echo $link->error;
 		}
 	}
 
@@ -40,7 +40,7 @@ class resource extends connection{
 
 		$id=mysqli_real_escape_string($link,$this->test_input($id));
 
-		$sql="SELECT * FROM resources WHERE id=(SELECT c_id FROM prep WHERE u_id='$id')";
+		$sql="SELECT * FROM resources WHERE id IN (SELECT c_id FROM prep WHERE u_id='$id')";
 		$res=mysqli_query($link,$sql);
 		if($res!=NULL){
 			return $res;

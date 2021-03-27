@@ -1,3 +1,13 @@
+<?php 
+session_start();
+include($_SERVER['DOCUMENT_ROOT'].'/jobPrep/profile/profile.php');
+if(!isset($_SESSION['user_id'])){
+  echo "you need to loggin!";
+}
+else{
+
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,9 +26,12 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"
     />
     <style>
+      img{
+        max-width: 400px;
+      }
       @media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
+  img{
+    max-width: 200px;
   }
 }
     </style>
@@ -42,13 +55,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="https://localhost/jobPrep/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Resources</a>
+              <a class="nav-link" href="https://localhost/jobPrep/resources/?user_id=<?php echo $_SESSION['user_id']; ?>">Resources</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Preparation</a>
+              <a class="nav-link" href="https://localhost/jobPrep/preperation/?user_id=<?php echo $_SESSION['user_id']; ?>">Preparation</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Jobs</a>
@@ -137,6 +150,11 @@
         </div>
       </div>
     </nav>
+    <?php
+    $user=new Profile();
+    $data=$user->get_user_details($_SESSION['user_id']);
+    $data=mysqli_fetch_array($data);
+    ?>
     <section>   
         <div class="container">
           <div class="row justify-content-center">
@@ -148,17 +166,18 @@
                               <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Profile</a>
                           </li>
                       </ul>
-                      <form>
+                      <form method="POST">
                           <div class="row mt-5 align-items-center">
                               <div class="col-md-3 text-center mb-5">
                                   <div class="avatar avatar-xl">
                                       <img src="https://scontent-bom1-2.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/103389035_397913254436673_6997679116347609785_n.jpg?tp=1&_nc_ht=scontent-bom1-2.cdninstagram.com&_nc_cat=109&_nc_ohc=pTPxFFI3TG4AX9l01-K&ccb=7-4&oh=232a3cc2773f8fa3e0eb7772e0928c5a&oe=608744FB&_nc_sid=83d603" alt="..." class="avatar-img rounded-circle" />
                                   </div>
+                                  <input type="file" name="image">
                               </div>
                               <div class="col">
                                   <div class="row align-items-center">
                                       <div class="col-md-7">
-                                          <h4 class="mb-1">Nobita Nobi</h4>
+                                          <h4 class="mb-1"><?php echo $data['name']; ?></h4>
                                           <p class="small mb-3"><span class="badge badge-dark">Mumbai, India</span></p>
                                       </div>
                                   </div>
@@ -175,7 +194,7 @@
                           <div class="form-row row">
                               <div class="form-group col-md-6">
                                   <label for="firstname">Firstname</label>
-                                  <input type="text" id="firstname" class="form-control" placeholder="Nobita" />
+                                  <input type="text" id="firstname" class="form-control" placeholder="<?php echo $data['name'] ?>" />
                               </div>
                               <div class="form-group col-md-6">
                                   <label for="lastname">Lastname</label>
@@ -184,7 +203,7 @@
                           </div>
                           <div class="form-group">
                               <label for="inputEmail">Email</label>
-                              <input type="email" class="form-control" id="inputEmail" placeholder="me@gmail.com" />
+                              <input type="email" class="form-control" id="inputEmail" placeholder="<?php echo $data['email_id'] ?>" />
                           </div>
                           <div class="form-group">
                               <label for="inputAddress">Address</label>
@@ -201,13 +220,13 @@
                               </div>
                               <div class="form-group col-md-6">
                                   <label for="inputPhone">Contact Number</label>
-                                  <input type="numbers" class="form-control" id="inputPhone"/>
+                                  <input placeholder="<?php $data['phone_no']; ?>" type="numbers" class="form-control" id="inputPhone"/>
                               </div>                                  
                           </div>
                           <div class="form-row row">
                             <div class="mb-3 col-md-8">
                               <label for="formFile" class="form-label">CV</label>
-                              <input class="form-control form-control" id="formFile" type="file">
+                              <input class="form-control form-control" id="formFile" type="file" name="cv">
                             </div>   
                             <div class="mb-3 col-md-4">
                               <label for="formFileSm" class="form-label">Job Experience</label>
@@ -258,7 +277,7 @@
                                   </ul>
                               </div>
                           </div>
-                          <button type="submit" class="btn btn-primary">Save Change</button>
+                          <button name="save" type="submit" class="btn btn-primary">Save Change</button>
                       </form>
                   </div>
               </div>
@@ -266,6 +285,35 @@
           
           </div>
     </section>
+    <?php
+if(isset($_POST['save'])){
+   if(isset($_FILES['image'])){
+      $errors= array();
+      $file_name = $_FILES['image']['name'];
+      $file_size =$_FILES['image']['size'];
+      $file_tmp =$_FILES['image']['tmp_name'];
+      $file_type=$_FILES['image']['type'];
+      $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+      
+      $extensions= array("jpeg","jpg","png");
+      
+      if(in_array($file_ext,$extensions)=== false){
+         $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+      }
+      
+      if($file_size > 2097152){
+         $errors[]='File size must be excately 2 MB';
+      }
+      
+      if(empty($errors)==true){
+         move_uploaded_file($file_tmp,$_SERVER['DOCUMENT_ROOT']."/jobPrep/images/".$file_name);
+         echo "Success";
+      }else{
+         print_r($errors);
+      }
+   }
+}
+    ?>
     <section>
       <hr>
       <footer id="footer" class="footer-1">
@@ -328,3 +376,7 @@
     ></script>
   </body>
 </html>
+<?php
+}
+
+?>

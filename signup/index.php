@@ -73,18 +73,7 @@ if(isset($_SESSION['user_id'])){
             </table>
         </form>
     </div>
-    <?php
-$signup = new Signup();
-if(isset($_POST['submit'])){
-if($signup->user_signup($_POST['name'],$_POST['email'],$_POST['phone_no'],$_POST['pwd'])){
-    echo "<script>alert('success');</script>";
-    header("location:https://localhost/jobPrep/index.php");
-}
-else{
-   // echo "<script>alert('something went wrong');</script>";
-}
-}
-    ?>
+  
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
