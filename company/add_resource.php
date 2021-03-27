@@ -1,7 +1,10 @@
 <?php 
 include("resource.php");
 $company_id=htmlspecialchars($_GET['company_id']);
-
+if(!isset($_SESSION['user_id'])){
+    echo "You have to login to continue";
+}
+else{
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,7 +42,7 @@ $company_id=htmlspecialchars($_GET['company_id']);
                         file
                     </td>
                     <td>
-                        <input type="file" name="file">
+                        <input type="file" name="fileToUpload">
                     </td>
                 </tr>
                 <tr>
@@ -52,13 +55,25 @@ $company_id=htmlspecialchars($_GET['company_id']);
                 </tr>
                 <tr>
                     <td>
-                        Type
+                        link
+                    </td>
+                    <td>
+                        <input type="text" name="link">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        domain
                     </td>
                     <td>
                         <select name="type">
                             <option value="question">question</option>
                             <option value="link">link</option>
                             <option value="file">file</option>
+                            <option value="technical">technical</option>
+                            <option value="interview">interview prep</option>
+                            <option value="marketing">marketing</option>
+                            <option value="info_sec">Info Sec</option>
                         </select>
                     </td>
                 </tr>
@@ -76,9 +91,10 @@ $company_id=htmlspecialchars($_GET['company_id']);
             $resource_name=$_POST['name'];
             $description=$_POST['description'];
             $type=$_POST['type'];
+            $link=$_POST['link'];
             $resource=new resource();
-            if($resource->add_resource($resource_name,$description,$type,$company_id)){
-                echo "<script>alert('success');</script>";
+          if($resource->add_resource($resource_name,$description,$type,$company_id,$link)){
+                //echo "<script>alert('success');</script>"
             }
         }
 
@@ -91,3 +107,7 @@ $company_id=htmlspecialchars($_GET['company_id']);
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
+<?php
+}
+
+?>

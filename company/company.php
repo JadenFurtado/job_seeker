@@ -61,6 +61,17 @@ class Company extends connection{
 			return NULL;
 		}
 	}
+
+	public function get_company_details($c_id){
+		$link=$this->connect();
+		$c_id=mysqli_real_escape_string($link,$this->test_input($c_id));
+
+		$sql="SELECT * FROM company WHERE id='$c_id'";
+		$res=mysqli_query($link,$sql);
+		if($res!=NULL){
+			return $res;
+		}
+	}
 }
 
 ?>

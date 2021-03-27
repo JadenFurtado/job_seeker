@@ -15,8 +15,8 @@ CREATE TABLE company(
 	email_id VARCHAR(255),
 	phone_no VARCHAR(10)
 );
-
 ALTER TABLE company ADD passwords VARCHAR(255);
+ALTER TABLE company ADD description VARCHAR(255);
 
 CREATE TABLE vacancies(
 	v_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,6 +39,8 @@ CREATE TABLE resources(
 	CONSTRAINT res_added FOREIGN KEY (u_id) REFERENCES users(id),
 	CONSTRAINT company_res FOREIGN KEY (id) REFERENCES company(id) 
 );
+ALTER TABLE resources ADD link VARCHAR(255);
+ALTER TABLE resources ADD 
 
 CREATE TABLE prep(
 	p_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,3 +63,4 @@ CREATE TABLE experience(
 	CONSTRAINT comp_exp FOREIGN KEY (c_id) REFERENCES company(id),
 	CONSTRAINT user_exp FOREIGN KEY (u_id) REFERENCES users(id)
 );
+

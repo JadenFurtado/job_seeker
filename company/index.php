@@ -1,4 +1,8 @@
-<?php include('company.php') ?>
+<?php include('company.php') ;
+$comp = new Company();
+$data=$comp->get_company_details($_GET['company_id']);
+  $arr=mysqli_fetch_array($data);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,21 +13,20 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Company Profile</title>
+    <title><?php  ?></title>
   </head>
   <body style="padding:5px;">
-    <h3>Company Name</h3>
+    <h3><?php echo $arr['name']; ?></h3>
     <div>
         company description
     </div>
     <?php  
-    $comp = new Company();
     $flag=0;
     if($comp->check_if_company_added($_GET['company_id'])){
         $flag=1;
     }
     ?>
-    <div><button class="btn <?php if($flag==0){ echo "add_company";}else{echo "remove_company";} ?>" id="button"><?php if($flag==0){ echo "add_company";}else{echo "remove_company";} ?></button></div>
+    <div><button class="btn <?php if($flag==0){ echo "add_company";}else{echo "remove_company";} ?>" id="button"><?php if($flag==0){ echo "start_preperation";}else{echo "stop_preperation";} ?></button></div>
     <script type="text/javascript">
         $(document).ready(function(){
             $(".add_company").click(function(){
@@ -68,23 +71,33 @@
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <div><a href="https://localhost/jobPrep/company/add_resource.php?company_id=<?php echo htmlspecialchars($_GET['company_id']); ?>">add resources</a></div>
+    <div><a href="https://localhost/jobPrep/company/add_resource.php?company_id=<?php echo htmlspecialchars($_GET['company_id']); ?>">contribute resources</a></div>
       <div>
+        
         <table style="width: 100%;">
           <?php 
           $g=$comp->get_resources($_GET['company_id']);
           while($d=mysqli_fetch_array($g)){
+            //if($d['type']=='question'){
             ?>
-          <tr>
-            <td>
-              <?php echo $d['resource_name']; ?>
-            </td>
-            <td>
-              <?php echo $d['description']; ?>
-            </td>
-          </tr>
+        <div>
+          <h4><?php echo $d['resource_name']; ?></h4>
+          <div>
+            <?php  echo $d['type'].":".$d['description']; ?>
+          </div>
+          <?php
+          if($d['link']!=NULL){
+          ?>
+          <div>
+            <a href="<?php echo $d['link'] ;?>"><?php echo $d['link']; ?></a>
+          </div>
+          <?php
+            }
+          ?>
+        </div>
         <?php
           }
+          
           ?>
         </table>
       </div>

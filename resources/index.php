@@ -1,5 +1,5 @@
-<?php include('search.php'); 
-session_start();
+<?php  
+include($_SERVER['DOCUMENT_ROOT'].'/jobPrep/company/resource.php');
  ?>
 <!doctype html>
 <html lang="en">
@@ -45,26 +45,33 @@ session_start();
     </ul>
   </div>
 </nav>
-  <div>
-    <h1>Search for companies</h1>
-      <form method="POST">
-          <input type="text" name="search" size="50"><button name="submit">search</button>
-      </form>
-  </div>   
-  <table> 
-  <?php
-  if(isset($_POST['submit'])){
-    $search=new Search();
-    $data=$search->search_result($_POST['search']);
-    while ($row=mysqli_fetch_array($data)) {
-      ?>
+<?php
 
-      <?php
-        echo "<tr><td><a href='https://localhost/jobPrep/company/?company_id=".$row['id']."'>".$row['name']."</a></td></tr>";
-    }
-  }
+$resource=new resource();
+if(isset($_SESSION['user_id'])){
+$data=$resource->get_user_resources($_SESSION['user_id']);
+}
+else{
+  $data=$resource->get_resources();
+}
+?>
+<?php
+while($row=mysqli_fetch_array($data)){
+?>
+<div style="padding-bottom: 10px; ">
+  <div><h4><?php echo $row['resource_name']; ?></h4></div>
+  <div><?php echo $row['type'].":".$row['description']; ?></div>
+  <?php
+  if($row['link']!=NULL){
   ?>
-</table>
+  <div><a href="<?php echo $row['link']; ?>"><?php echo $row['link'];?></a></div>
+  <?php
+}
+  ?>
+</div>
+<?php
+}
+?>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -25,7 +25,10 @@ if($data!=NULL){
     <title>Hello, world!</title>
   </head>
   <body style="padding:5px;">
-    <h3>Users preperation</h3>
+    <h3>Users preperation for the company</h3>
+    <?php
+
+    ?>
     <table style="width: 100%;">
         <tr>
             <td>

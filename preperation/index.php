@@ -17,7 +17,7 @@ $user_id=$_GET['user_id'];
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>company profile</title>
   </head>
   <body style="padding:5px;">
     <?php
@@ -25,7 +25,7 @@ $user_id=$_GET['user_id'];
     $data=$profile->get_preperation($user_id);
 
     ?>
-    <h3>Users preperation</h3>
+    <h3>My preperation</h3>
     <table style="width: 100%;">
         <?php
         while($row=mysqli_fetch_array($data)){
