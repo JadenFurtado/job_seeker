@@ -7,7 +7,7 @@ The scripts for the DB are contained in the script.sql file.
 
 Team members:
 
-Nimit JhunJhunwala
-Keyul Jain
-Atmaj Koppikar
-Jaden Furtado
+  - Nimit JhunJhunwala
+  - Keyul Jain
+  - Atmaj Koppikar
+  - Jaden Furtado
