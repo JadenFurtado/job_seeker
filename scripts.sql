@@ -20,6 +20,21 @@ CREATE TABLE company(
 ALTER TABLE company ADD passwords VARCHAR(255);
 ALTER TABLE company ADD description VARCHAR(255);
 
+ALTER TABLE company ADD link VARCHAR(255);
+ALTER TABLE company ADD avg_work_hours VARCHAR(255);
+ALTER TABLE company ADD avg_package VARCHAR(255);
+ALTER TABLE company ADD image VARCHAR(255);
+ALTER TABLE company ADD avg_interviews VARCHAR(255);
+
+insert into company(name,email_id,phone_no,description,avg_package,avg_work_hours,image)
+VALUES('Amazon','erick@amazon.in','9871560555','amazon company description','10-15','6-9','Amazon_logo.png');
+
+insert into company(name,email_id,phone_no,description,avg_package,avg_work_hours,image)
+VALUES('Oracle','dan@Oracle.in','9871744550','Oracle company description','11-15','7-9','download.png');
+
+insert into company(name,email_id,phone_no,description,avg_package,avg_work_hours,image)
+VALUES('ISRO','rohan@isro.gov.in','9871788550','ISRO org description','15-30','8-9','isro.png');
+
 CREATE TABLE vacancies(
 	v_id INT AUTO_INCREMENT PRIMARY KEY,
 	vacancy VARCHAR(255),
@@ -41,8 +56,6 @@ CREATE TABLE resources(
 	CONSTRAINT res_added FOREIGN KEY (u_id) REFERENCES users(id),
 	CONSTRAINT company_res FOREIGN KEY (id) REFERENCES company(id) 
 );
-ALTER TABLE resources ADD link VARCHAR(255);
-ALTER TABLE resources ADD 
 
 CREATE TABLE prep(
 	p_id INT AUTO_INCREMENT PRIMARY KEY,

@@ -57,9 +57,14 @@
             <li class="nav-item">
               <a class="nav-link" href="search/">Search</a>
             </li>
+            <?php if(!isset($_SESSION['user_id'])){
+              ?>
             <li class="nav-item">
               <a class="nav-link" href="login/">Login</a>
             </li>
+            <?php 
+          }
+          ?>
             <li class="nav-item">
               <a class="nav-link" href="about/">About</a>
             </li>

@@ -62,23 +62,39 @@ else{
         <table style="width: 100%;">
             <tr>
                 <td>
-                    My experience
+                    My experience:
                 </td>
                 <td>
-                    <textarea name="experience"></textarea>
+                    <textarea name="experience" cols="40"></textarea>
                 </td>
             </tr>
             <tr>
                 <td>
-                    My position
+                    My position:
                 </td>
                 <td>
                     <input type="text" name="position">
                 </td>
             </tr>
             <tr>
+              <td>
+                My salary:
+              </td>
+              <td>
+                <input type="text" name="salary" name="package">
+              </td>
+            </tr>
+            <tr>
+              <td>
+              Avg working hours per day
+              </td>
+              <td>
+                <input type="text" name="time">
+              </td>
+            </tr>
+            <tr>
                 <td>
-                    from
+                    with compnay from
                 </td>
                 <td>
                     <input type="date" name="start">

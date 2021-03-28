@@ -68,7 +68,7 @@ $user_id=$_GET['user_id'];
                 <h4><?php echo $r['name']; ?></h4>
             </td>
             <td>
-                <a href="https://localhost/jobPrep/company/?company_id=<?php echo $row['c_id'] ?>">see content to prepare</a>
+                <a href="https://localhost/jobPrep/company/resources.php?company_id=<?php echo $row['c_id'] ?>">see content to prepare</a>
             </td>
         </tr>
         <?php

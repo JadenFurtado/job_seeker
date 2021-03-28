@@ -69,8 +69,12 @@ $data=$comp->get_company_details($_GET['company_id']);
     }
     
     ?>
-    <div><button class="btn <?php if($flag%2==0){ echo "add_company";}else{echo "remove_company";} ?>" id="button"><?php if($flag%2==0){ echo "start_preperation";$flag++;}else{echo "stop_preperation";$flag++;} ?></button></div>
+    <div><button class="btn btn-primary <?php if($flag%2==0){ echo "add_company";}else{echo "remove_company";} ?>" id="button"><?php if($flag%2==0){ echo "start_preperation";$flag++;}else{echo "stop_preperation";$flag++;} ?></button>
+      <button class="beta btn">view beta</button></div>
     <script type="text/javascript">
+      $(".beta").click(function(){
+        location.href="https://localhost/jobPrep/company/resources.php?company_id=<?php echo htmlspecialchars($_GET['company_id'])?>"
+      });
         $(document).ready(function(){
             $(".add_company").click(function(){
                 var id= "<?php echo htmlspecialchars($_GET['company_id']); ?>";

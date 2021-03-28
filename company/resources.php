@@ -41,18 +41,22 @@ $data=$comp->get_company_details($_GET['company_id']);
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="https://localhost/jobPrep/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Resources</a>
+              <a class="nav-link" href="https://localhost/jobPrep/resources/?company_id=<?php echo htmlspecialchars($_GET['company_id']) ?>">Resources</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Preparation</a>
+              <a class="nav-link" href="https://localhost/jobPrep/preperation/?user_id=<?php echo htmlspecialchars($_GET['user_id']) ?>">Preparation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://localhost/jobPrep/search/">Search</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Jobs</a>
             </li>
           </ul>
+          <!--
           <form class="d-flex">
             <input
               class="form-control me-2"
@@ -64,6 +68,7 @@ $data=$comp->get_company_details($_GET['company_id']);
               Search
             </button>
           </form>
+        -->
           <button
             type="button"
             class="btn"
@@ -126,9 +131,16 @@ $data=$comp->get_company_details($_GET['company_id']);
                   >
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary">
-                    Save changes
+                  <form method="POST">
+                  <button type="button" name="v" class="btn btn-primary" id="v">
+                    view profile
                   </button>
+                </form>
+                  <?php
+                  if(isset($_POST['v'])){
+                    header("location:https://localhost/jobPrep/profile/?user_id=".$_SESSION['user_id']."");
+                  }
+                  ?>
                 </div>
               </div>
             </div>
@@ -149,18 +161,20 @@ $data=$comp->get_company_details($_GET['company_id']);
           <div class="row g-0">
             <div class="col-md-4">
               <img
-                src="/assets/companies/amazon.svg"
-                alt="Amazon"
-                style="display: flex; margin: auto"
-                id="comp-logo"
+                src="https://localhost/jobPrep/images/<?php echo $arr['image']; ?>"
+                alt="company-logo"
+                style="max-width:300px;display: flex; margin: auto;"
+                id="comp-logo" class="img-fluid"
               />
             </div>
             <div class="col-md-8">
               <div class="card-body">
+                <b>
                 <h5 class="card-title"><?php echo $arr['name'];  ?></h5>
                 <p class="card-text">Product Based Company</p>
                 <p class="card-text">Founded in 1994</p>
                 <p class="card-text">Headquartered in United States</p>
+                </b>
                 <p class="card-text">
                   <small class="text-muted">Last updated 3 mins ago</small>
                 </p>
@@ -213,7 +227,7 @@ $data=$comp->get_company_details($_GET['company_id']);
           <div class="card h-100 text-center">
             <div class="card-header">Average Package</div>
             <div class="card-body">
-              <p class="card-text">15 - 20 LPA</p>
+              <p class="card-text"><?php echo $arr['avg_package']."LPA"; ?></p>
               <div class="progress">
                 <div
                   class="progress-bar progress-bar-striped progress-bar-animated"
@@ -255,9 +269,9 @@ $data=$comp->get_company_details($_GET['company_id']);
         </div>
         <div class="col">
           <div class="card h-100 text-center">
-            <div class="card-header">Average Working Hour per week</div>
+            <div class="card-header">Average Working Hour per day</div>
             <div class="card-body">
-              <p class="card-text">50-60 hours</p>
+              <p class="card-text"><?php echo $arr['avg_work_hours']; ?> hours</p>
               <div class="progress">
                 <div
                   class="progress-bar progress-bar-striped progress-bar-animated"
@@ -276,9 +290,14 @@ $data=$comp->get_company_details($_GET['company_id']);
     <hr />
     <section>
       <h4 class="text-center">Employee Experience</h4>
+      <br>
+      <div style="align-content: center;width: 100%; padding: 5px;">
+      <a href="https://localhost/jobPrep/company/add_experience.php?company_id=<?php echo $_GET['company_id']; ?>">add experience</a>
+      </div>
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php 
         $d=$comp->get_experience($_GET['company_id']);
+        if(mysqli_num_rows($d)>0){
          while($row=mysqli_fetch_array($d)){
          ?>
         <div class="col">
@@ -296,6 +315,23 @@ $data=$comp->get_company_details($_GET['company_id']);
         </div>
         <?php
       }
+    }
+    else{
+      ?><div class="col">
+          <div class="card h-100 text-center">
+            <div class="card-header"></div>
+            <div class="card-body">
+              <p class="card-text">
+                No experience to show
+              </p>
+              <footer class="blockquote-footer">
+                <cite title="Source Title"></cite>
+              </footer>
+            </div>
+          </div>
+        </div>
+      <?php
+    }
       ?>
       <!--
         <div class="col">
@@ -337,19 +373,44 @@ $data=$comp->get_company_details($_GET['company_id']);
     <hr />
     <section>
       <h4 class="text-center">Resources to prepare</h4>
+      <br>
+      <div style="padding: 5px;">
+      <a href="https://localhost/jobPrep/company/add_resource.php?company_id=<?php echo $_GET['company_id']; ?>">add resources</a>
+      </div>
       <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php
+        $g=$comp->get_resources($_GET['company_id']);
+        if(mysqli_num_rows($g)>0){
+          while($d=mysqli_fetch_array($g)){
+        ?>
         <div class="col">
           <div class="card h-100">
             <div class="card-body">
-              <h5 class="card-title">Amazon Assessment test</h5>
+              <h5 class="card-title"><?php echo $d['resource_name']; ?></h5>
               <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                <?php echo $d['type'].":".$d['description']; ?>
               </p>
-              <a href="#" class="card-link">Resouces</a>
+              <a href="<?php  echo $d['link'] ?>" class="card-link"><?php echo $d['link']; ?></a>
             </div>
           </div>
         </div>
+        <?php
+      }
+    }else{
+        ?>
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">No resources to display</h5>
+              <p class="card-text">
+              </p>
+            </div>
+          </div>
+        </div>
+        <?php
+      }
+        ?>
+        <!--
         <div class="col">
           <div class="card h-100">
             <div class="card-body">
@@ -375,6 +436,7 @@ $data=$comp->get_company_details($_GET['company_id']);
             </div>
           </div>
         </div>
+      -->
       </div>
     </section>
     <hr />

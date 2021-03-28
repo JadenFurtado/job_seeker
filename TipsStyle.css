@@ -1,0 +1,15 @@
+body {
+  font-family: 'Verdana';
+}
+
+.container {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-family: 'Verdana';
+}
+
+.container h6 {
+  font-weight: bold;
+}
+/*# sourceMappingURL=TipsStyle.css.map */
